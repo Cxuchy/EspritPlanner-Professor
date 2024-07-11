@@ -38,6 +38,9 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <link href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -72,18 +75,18 @@
         </div>
         </div>
 
-
+        @include('frontend.complaint.complaint-stats')
 
         <div class="row">
             <div class="col-md-7 mt-4">
               <div class="card">
                 <div class="card-header pb-0 px-3">
-                  <h6 class="mb-0">Primary List</h6>
+                  <h6 class="mb-0">My Complaints</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
 
                     <!--YOUR COMPLAINT TABLE HERE-->
-
+                @include('frontend.complaint.complaint-table')
 
 
 
@@ -99,7 +102,9 @@
                     </div>
                     <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                       <i class="material-icons me-2 text-lg">date_range</i>
-                      <small>23 - 30 March 2020</small>
+                      <small>
+                        {{$today_date->format('D M Y')}}
+                      </small>
                     </div>
                   </div>
                 </div>
@@ -107,19 +112,28 @@
 
                     <!--YOUR COMPLAINT HERE -->
                     <div class="card-body">
-                        <form role="form" action="{{ route('sign-up') }}" method="POST">
+                        <form role="form" action="{{ route('submit-complaint') }}" method="POST">
                           @csrf
-                          <div class="input-group input-group-outline mb-3">
-                              <label class="form-label" for="identifier">Identifier</label>
-                              <input type="text" class="form-control" name="identifier" id="identifier">
 
+                          <div class="input-group input-group-static mb-4">
+                            <label for="exampleFormControlSelect1" class="ms-0" for="type">Complaint Type</label>
+                            <select class="form-control" name="type" id="type">
+                              <option>Scheduling</option>
+                              <option>Personnal Account</option>
+                              <option>Other</option>
+                            </select>
                           </div>
+
+                          <div class="input-group input-group-static mb-4">
+                            <label for="details">Details</label>
+                            <textarea class="form-control" name="details" id="details" rows="4"></textarea>
+                        </div>
+
                           <div class="mb-2 text-sm mx-auto" style="color:red">
-                              @error('identifier')
+                              @error('details')
                               <span > {{ $message }} </span>
                               @enderror
                           </div>
-
 
 
                           <div class="text-center">

@@ -1,17 +1,3 @@
-<!--
-=========================================================
-* Material Dashboard 2 - v3.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,11 +47,25 @@
                             <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                 <span class="text-sm">Select at least 4 choices for each list</span>
                             </div>
+                            @elseif (session('success_delete'))
+                                <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                    <span class="text-sm">Request deleted.</span>
+                                </div>
+                            @elseif (session('danger'))
+                            <div class="alert alert-secondary alert-dismissible text-white" role="alert">
+                                <span class="text-sm">Please select exactly 10 seperate choices for list1 and list2.</span>
+                            </div>
+                            @elseif (session('success_generate'))
+                            <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                <span class="text-sm">Personnal planning is ready for you down below ! </span>
+                            </div>
                             @else
                                 <div class="alert alert-danger alert-dismissible text-white" role="alert">
                                     <span class="text-sm">Please make sure to select two seperate choices from the list bellow</span>
                                 </div>
                             @endif
+
+
                         </div>
                     </div>
 
@@ -94,12 +94,47 @@
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Exams Planning </h6>
+                                <div class="d-inline-flex p-2">
+                                    <h6 class="text-white text-capitalize ps-3">Exams Planning (submit two separate choices)</h6>
+
+                                    <p id="checkedCountList1" class="text-white text-capitalize ps-3">
+                                        Primary: 0
+                                    </p>
+                                    <p class="text-white text-capitalize ps-3">
+
+                                    </p>
+                                    <p id="checkedCountList2" class="text-white text-capitalize ps-3">
+                                        Secondary: 0
+                                    </p>
+                                    <p class="text-white text-capitalize ps-3">
+
+                                        </p>
+                                </div>
                             </div>
+
+
                         </div>
 
 
                         @include('frontend.schedule.exams-planning-table')
+
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-secondary shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-white text-capitalize ps-3">Previous exams planning </h6>
+                            </div>
+                        </div>
+
+
+                        @include('frontend.schedule.previous-exams-table')
 
 
                     </div>
@@ -140,11 +175,14 @@
         </div>
 -->
 
+
+<div class="container-fluid py-4">
+
         <div class="row">
             <div class="col-md-7 mt-4">
               <div class="card">
                 <div class="card-header pb-0 px-3">
-                  <h6 class="mb-0">Primary List</h6>
+                  <h6 class="mb-0">Requested Planning</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
 
@@ -157,27 +195,34 @@
                 </div>
               </div>
             </div>
+
+
+
+
+
             <div class="col-md-5 mt-4">
               <div class="card h-100 mb-4">
                 <div class="card-header pb-0 px-3">
                   <div class="row">
                     <div class="col-md-6">
-                      <h6 class="mb-0">Final Planning</h6>
+                      <h6 class="mb-0">My Schedule</h6>
                     </div>
                     <div class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
                       <i class="material-icons me-2 text-lg">date_range</i>
-                      <small>23 - 30 March 2020</small>
+                      <small>You have <strong>{{count($myprimaryplanning)/2}}/10</strong> Supervisions</small>
                     </div>
+
                   </div>
                 </div>
                 <div class="card-body pt-4 p-3">
-
                     <!--YOUR SECOND TABLE HJERE -->
+                    @include('frontend.schedule.list2-table')
 
 
-                </div>
               </div>
+
             </div>
+
           </div>
 
         </div>
@@ -190,39 +235,11 @@
     </div>
     </main>
 
-    <div class="fixed-plugin">
-        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-            <i class="material-icons py-2">settings</i>
-        </a>
-        @include('frontend.elements.materialU')
-    </div>
+
 
 </body>
 
 </html>
-
-
-
-<!-- Js code for disabled second checkbox when the first is submited-->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('input.list1').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                let row = this.closest('tr');
-                let otherCheckbox = row.querySelector('input.list2');
-                otherCheckbox.disabled = this.checked;
-            });
-        });
-
-        document.querySelectorAll('input.list2').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                let row = this.closest('tr');
-                let otherCheckbox = row.querySelector('input.list1');
-                otherCheckbox.disabled = this.checked;
-            });
-        });
-    });
-</script>
 
 
 <style>

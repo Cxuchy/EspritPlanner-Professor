@@ -32,11 +32,7 @@ complaint    public function schedule()  {
     }
 
 
-    public function complaint()
-    {
-        return view('frontend.complaint.complaint');
 
-    }
 
 
 

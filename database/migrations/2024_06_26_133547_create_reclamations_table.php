@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('userid');
             $table->date('submissionDate');
             $table->string('status');
-            $table->date('resolutionDate');
-            $table->string('resolutionMessage');
+            $table->string('type');
+            $table->string('submitMessage');
+            $table->date('resolutionDate')->nullable();
+            $table->string('resolutionMessage')->nullable();
             $table->timestamps();
 
 
