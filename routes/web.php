@@ -53,3 +53,8 @@ Route::post('/generate-planning', [ScheduleController::class,'generatePlanning']
 
 
 Route::get('/calendar', [CalendarController::class,'calendar'])->name('calendar');
+
+
+
+
+Route::post('/send-email', [ScheduleController::class,'sendEmail'])->name('send-email');

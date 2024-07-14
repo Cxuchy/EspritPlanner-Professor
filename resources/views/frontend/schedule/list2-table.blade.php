@@ -46,6 +46,16 @@
 
 
 </div>
-<button type="button" class="btn btn-danger btn-lg w-100">Transfer this planning to my email</button>
+
+<form action="{{ route('send-email') }}" method="POST">
+    <div class="d-flex justify-content-center mb-3">
+        @csrf
+        <button class="btn btn-success btn-lg w-90" type="submit">
+            <span class="btn-inner--icon"><i class="material-icons">email</i></span>
+            <span class="btn-inner--text">Transfer this planning to my email</span>
+        </button>
+    </div>
+
+</form>
 
 </div>

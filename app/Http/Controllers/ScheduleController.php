@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PlanningMail;
 use Illuminate\Http\Request;
 use App\Models\Request as req;
 use App\Models\PassageExam;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -38,7 +41,6 @@ class ScheduleController extends Controller
             ->where('userid', '=', $currentUser->id)
             ->where('type', '=', 2)
             ->get();
-
 
         return view('frontend.schedule.schedule', [
             'data' => $passageExam,
@@ -100,7 +102,6 @@ class ScheduleController extends Controller
                     'type' => '2'
                 ]);
             }
-
             return redirect()->back()->with('success', 'Exam Supervision Requests sent!');
         } else {
             return redirect()->back()->with('danger', 'please select exactly 10 seperate choices for list1 and list2');
@@ -204,6 +205,26 @@ class ScheduleController extends Controller
         // now you have exactly 10 final choices that will be sumitted
 
         return redirect()->back()->with('success_generate', 'Generated planning');
+    }
+
+
+
+    public function sendEmail()
+    {
+        $currentUser = auth()->user();
+        $toEmail = $currentUser->email;
+        $message = 'test';
+        $subject = 'email test';
+
+        Mail::to($toEmail)->send(new PlanningMail($message,$subject));
+
+        if (Auth::check()) {
+            return view('frontend.home');
+        } else {
+            // The user is not logged in
+            return view('frontend.auth.sign-in');
+        }
+
     }
 
     // dont forget to handle the sunday schedule now
