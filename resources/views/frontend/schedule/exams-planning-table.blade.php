@@ -3,8 +3,13 @@
     <div class="table-responsive p-0">
 
         <table class="table align-items-center mb-0">
+
             <thead>
                 <tr>
+
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+
+                    </th>
 
                     @foreach ($data as $passageexam)
                         @php
@@ -23,7 +28,7 @@
 
 
                         @if (!$hasPassed && $remainingProfessors > 0)
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            <th class="text-uppercase text-secondary text-l font-weight-bolder opacity-9">
                                 @php
                                     // Convert the datepassage to the desired format
                                     $date = new DateTime($passageexam->datepassage);
@@ -35,19 +40,28 @@
                                         ' ' .
                                         $date->format('Y');
                                 @endphp
-                                <strong>{{ $formattedDate }} at {{ $passageexam->heurepassage }}:00</strong>
+                                <strong>{{ $passageexam->datepassage }} at {{ $passageexam->heurepassage }}:00</strong>
                             </th>
                         @endif
                     @endforeach
                 </tr>
             </thead>
+
             <tbody>
                 <form id="examForm" action="{{ route('submit-schedule') }}" method="POST">
                     @csrf
-
                     <tr>
-                        @foreach ($data as $passageexam)
+                        <td class="align-middle text-center">
+                            <div style="flex-direction: column;display: flex;align-items: center;gap: 11px;">
+                                <span class="badge badge-pill bg-gradient-primary ">Primary  </span>
+                                <span class="badge badge-pill bg-gradient-secondary ">Secondary</span>
+                                <p class="remaining-supervisors">
+                                    <small hidden>dvdvvd</small>
+                                </p>
+                            </div>
+                        </td>
 
+                        @foreach ($data as $passageexam)
                             @php
                                 // Current date and time
                                 $currentDateTime = new DateTime();
@@ -63,20 +77,27 @@
                             @endphp
 
                             @if (!$hasPassed && $remainingProfessors > 0)
+
                                 <td class="align-middle text-center">
                                     <div class="checkbox-container">
-                                        <div class="checkbox-item">
+
+                                        <div class="checkbox-item" >
                                             <input type="checkbox" class="list1" name="selected_exams_list1[]"
                                                 value="{{ $passageexam->id }}"
                                                 {{ $remainingProfessors == 0 ? 'disabled' : '' }}>
                                             <label for="list1"></label>
                                         </div>
+
+
+
                                         <div class="checkbox-item">
                                             <input type="checkbox" class="list2" name="selected_exams_list2[]"
                                                 value="{{ $passageexam->id }}"
                                                 {{ $remainingProfessors == 0 ? 'disabled' : '' }}>
                                             <label for="list2"></label>
                                         </div>
+
+
                                     </div>
                                     <p class="remaining-supervisors">
                                         <small>{{ $remainingProfessors }} supervisors remaining</small>
@@ -230,3 +251,5 @@
             /* Adjust the margin as needed */
         }
     </style>
+
+

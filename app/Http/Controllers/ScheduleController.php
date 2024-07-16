@@ -11,6 +11,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -59,16 +60,12 @@ class ScheduleController extends Controller
 
         if (count($selectedExamIds_1) == 10) {
 
-
-
-
-
-        $user = auth()->user();
-        $currentUser = User::findOrFail($user->id);
-        // update the hasplanning to 1
-        $currentUser->hasplanning = 1;
-        //update changes
-        $currentUser->save();
+            $user = auth()->user();
+            $currentUser = User::findOrFail($user->id);
+            // update the hasplanning to 1
+            $currentUser->hasplanning = 1;
+            //update changes
+            $currentUser->save();
 
 
             // First List of choices
@@ -107,18 +104,6 @@ class ScheduleController extends Controller
             return redirect()->back()->with('danger', 'please select exactly 10 seperate choices for list1 and list2');
         }
     }
-
-
-    //destroy specific line --> add this line in web.php Route::delete('/primaryplanning/{id}', [ScheduleController::class, 'destroy'])->name('primaryplanning.destroy');
-
-    /*public function destroy($id)
-    {
-        $request_exam = req::findOrFail($id);
-        PassageExam::findOrFail($request_exam->passageexamid)->decrement('nbprof_enrolled');
-        $request_exam->delete();
-
-        return redirect()->back()->with('success_delete', 'Record deleted successfully');
-    }*/
 
     public function destroy()
     {
@@ -214,9 +199,33 @@ class ScheduleController extends Controller
         $currentUser = auth()->user();
         $toEmail = $currentUser->email;
         $message = 'test';
-        $subject = 'email test';
+        $subject = "Exam Planning for" . " " . $currentUser->nom;
 
-        Mail::to($toEmail)->send(new PlanningMail($message,$subject));
+
+        $myfinalplanning = DB::table('requests')
+            ->join('passageexams', 'requests.passageexamid', '=', 'passageexams.id')
+            ->select('passageexams.*', 'requests.*')
+            ->where('userid', '=', $currentUser->id)
+            ->where('status', '=', 'accepted')
+            ->orderBy('datepassage', 'asc')
+            ->orderBy('heurepassage', 'asc')
+            ->get();
+
+        //  empty array to store events
+        $events = [];
+        // Iterate through each record and format it for the events array
+        foreach ($myfinalplanning as $item) {
+
+            $events[] = [
+                'summary' => "Supervision for exam at Esprit",
+                'description' => "Monitoring students during their examinations to ensure academic integrity and compliance with exam rules.",
+                'location' => "Esprit El Ghazela",
+                'start_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage-1 . ':00:00'),
+                'end_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage-1 . ':00:00')->addHours(2),
+            ];
+        }
+
+        Mail::to($toEmail)->send(new PlanningMail($message, $subject, $myfinalplanning, $events));
 
         if (Auth::check()) {
             return view('frontend.home');
@@ -224,8 +233,16 @@ class ScheduleController extends Controller
             // The user is not logged in
             return view('frontend.auth.sign-in');
         }
-
     }
+
+
+
+
+
+
+
+
+
 
     // dont forget to handle the sunday schedule now
 

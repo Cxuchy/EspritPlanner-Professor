@@ -6,13 +6,49 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{$subject}}</title>
 </head>
+
+
+
 <body>
-    <h4>
-        {{$subject}}
-    </h4>
-    <p>
-        {{$mailMessage}}
-    </p>
+    <h1>Your final planning is ready for you !</h1>
+
+    <table>
+        <tr>
+          <th>Date</th>
+          <th>Hour</th>
+          <th>Bloc</th>
+        </tr>
+
+        @foreach ($planning as $plan)
+        <tr>
+            <td>{{$plan->datepassage}}</td>
+            <td>{{$plan->heurepassage}}:00</td>
+            <td>Bloc X</td>
+          </tr>
+        @endforeach
+
+      </table>
 
 </body>
 </html>
+
+
+
+
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+</style>
