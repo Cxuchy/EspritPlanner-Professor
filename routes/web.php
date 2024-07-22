@@ -66,3 +66,4 @@ Route::post('/send-email', [ScheduleController::class,'sendEmail'])->name('send-
 /*
 Student
 */
+Route::get('/profile-student', [ProfileController::class,'profile_student'])->name('profile-student');

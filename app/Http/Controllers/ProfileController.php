@@ -24,4 +24,20 @@ class ProfileController extends Controller
             'exams'=> $exams
         ]);
     }
+
+
+    public function profile_student()
+    {
+        // Get the currently authenticated user
+        $currentUser = auth()->user();
+        $exams = Passageexam::take(4)->orderBy('datepassage', 'desc')->get();
+
+        // Retrieve all users except the authenticated one
+        $users = User::where('id', '!=', $currentUser->id)->get();
+
+       return view('frontend.Student.profile.profile',[
+           'users'=> $users ,
+               ]);
+
+    }
 }
