@@ -1,3 +1,5 @@
+
+
 <div class="card">
     <div class="table-responsive">
         <table class="table align-items-center mb-0">
@@ -114,32 +116,43 @@
     <div class="d-flex justify-content-center mb-3">
     </div>
 
-        <form action="{{ route('primaryplanning.destroy') }}" method="POST">
+    @if ($hasplanning == 0)
+    <div class="d-flex justify-content-center mb-3">
 
-            <div class="d-flex justify-content-center mb-3">
-                @csrf
-                @method('DELETE')
+        <a class="d-flex justify-content-center mb-10" >
+            <h4 class="p-65"> <strong>You did not choose a planning yet</strong></h4>
+        </a>
 
-                <button class="btn btn-primary btn-lg w-90" type="submit">
-                    <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
-                    <span class="btn-inner--text">Delete requested planning</span>
-                </button>
+    </div>
+    @else
+    <form action="{{ route('primaryplanning.destroy') }}" method="POST">
+
+        <div class="d-flex justify-content-center mb-3">
+            @csrf
+            @method('DELETE')
+
+            <button class="btn btn-primary btn-lg w-90" type="submit">
+                <span class="btn-inner--icon"><i class="material-icons">delete</i></span>
+                <span class="btn-inner--text">Delete requested planning</span>
+            </button>
 
 
-            </div>
-        </form>
+        </div>
+    </form>
 
 
-        <form action="{{ route('generate-planning') }}" method="POST">
-            <div class="d-flex justify-content-center mb-3">
-                @csrf
-                <button class="btn btn-success btn-lg w-90" type="submit">
-                    <span class="btn-inner--icon"><i class="material-icons">check_circle</i></span>
-                    <span class="btn-inner--text">Generate my planning</span>
-                </button>
-            </div>
+    <form action="{{ route('generate-planning') }}" method="POST">
+        <div class="d-flex justify-content-center mb-3">
+            @csrf
+            <button class="btn btn-success btn-lg w-90" type="submit">
+                <span class="btn-inner--icon"><i class="material-icons">check_circle</i></span>
+                <span class="btn-inner--text">Generate my planning</span>
+            </button>
+        </div>
 
-        </form>
+    </form>
+    @endif
+
     @endif
 
     <div class="d-flex justify-content-center mb-3">

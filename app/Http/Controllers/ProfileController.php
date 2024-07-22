@@ -19,7 +19,7 @@ class ProfileController extends Controller
          // Retrieve all users except the authenticated one
          $users = User::where('id', '!=', $currentUser->id)->get();
 
-        return view('frontend.profile.profile',[
+        return view('frontend.Professor.profile.profile',[
             'users'=> $users ,
             'exams'=> $exams
         ]);

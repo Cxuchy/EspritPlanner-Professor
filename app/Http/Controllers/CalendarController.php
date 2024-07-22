@@ -37,7 +37,7 @@ class CalendarController extends Controller
         })->toArray(); ;
 
         return view(
-            'frontend.calendar.calendar',
+            'frontend.Professor.calendar.calendar',
             [
                 'events' => $events
             ]

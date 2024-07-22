@@ -9,7 +9,9 @@ use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
 
-
+/*
+Professor
+*/
 Route::get('/', [TemplateController::class,'index'])->name('index');
 
 Route::get('/schedule', [ScheduleController::class,'schedule'])->name('schedule');
@@ -58,3 +60,9 @@ Route::get('/calendar', [CalendarController::class,'calendar'])->name('calendar'
 
 
 Route::post('/send-email', [ScheduleController::class,'sendEmail'])->name('send-email');
+
+
+
+/*
+Student
+*/

@@ -39,7 +39,7 @@ class ComplaintController extends Controller
         $mycomplaints = DB::table('reclamations')
         ->where('userid','=', auth()->user()->id)
         ->get();
-        return view('frontend.complaint.complaint',
+        return view('frontend.Professor.complaint.complaint',
     [
         'complaints' => $mycomplaints ,
         'user' =>  auth()->user(),

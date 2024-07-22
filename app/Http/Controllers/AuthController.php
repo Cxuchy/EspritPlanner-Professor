@@ -30,7 +30,8 @@ class AuthController extends Controller
                 'name' => 'required|min:5|max:30',
                 'phonenumber' => 'required',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed'
+                'password' => 'required|confirmed',
+                'role'=> 'required'
             ]
             );
 
@@ -41,7 +42,7 @@ class AuthController extends Controller
                     'identifier' => $validated['identifier'],
                     'nom' => $validated['name'],
                     'phonenumber' => $validated['phonenumber'],
-                    'role'=> "Professor"
+                    'role'=> $validated['role']
                 ]
                 );
 
@@ -81,7 +82,7 @@ class AuthController extends Controller
             }
 
             return redirect()->route('login')->withErrors([
-                'email' => "No matching professor found with the provided email"
+                'email' => "No matching user found with the provided coordinates"
             ]);
 
     }

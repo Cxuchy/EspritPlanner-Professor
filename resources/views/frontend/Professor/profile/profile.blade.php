@@ -40,10 +40,10 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-    @include('frontend.elements.sidebar')
+    @include('frontend.Professor.elements.sidebar')
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    @include('frontend.elements.navbar')
+    @include('frontend.Professor.elements.navbar')
 
 
 
@@ -258,7 +258,7 @@
 
 
 
-    @include('frontend.elements.footer')
+    @include('frontend.Professor.elements.footer')
     </div>
   </main>
 
@@ -266,7 +266,7 @@
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="material-icons py-2">settings</i>
     </a>
-    @include('frontend.elements.materialU')
+    @include('frontend.Professor.elements.materialU')
   </div>
 
 </body>

@@ -26,10 +26,10 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-    @include('frontend.elements.sidebar')
+    @include('frontend.Student.elements.sidebar')
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    @include('frontend.elements.navbar')
+    @include('frontend.Student.elements.navbar')
 
     <div class="container-fluid py-4">
       <div class="row">
@@ -42,7 +42,7 @@
 
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                <h4 class="mb-0">$53k</h4>
+                <h4 class="mb-0">$student</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -510,7 +510,7 @@
           </div>
         </div>
       </div>
-      @include('frontend.elements.footer')
+      @include('frontend.Student.elements.footer')
     </div>
   </main>
 

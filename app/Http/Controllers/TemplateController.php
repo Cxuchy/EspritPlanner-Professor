@@ -11,7 +11,14 @@ class TemplateController extends Controller
     public function index()  {
         //checks if the user is logged in
         if (Auth::check()) {
-            return view('frontend.home');
+            $user = Auth::user();
+            if ($user->role == "Professor") {
+                return view('frontend.Professor.home');
+            }
+            if ($user->role == "Student") {
+                return view('frontend.Student.home');
+            }
+
         } else {
             // The user is not logged in
             return view('frontend.auth.sign-in');
@@ -28,7 +35,7 @@ complaint    public function schedule()  {
 
     public function profile()  {
 
-        return view('frontend.profile.profile');
+        return view('frontend.Professor.profile.profile');
     }
 
 

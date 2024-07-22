@@ -43,11 +43,21 @@ class ScheduleController extends Controller
             ->where('type', '=', 2)
             ->get();
 
-        return view('frontend.schedule.schedule', [
+
+        $finalplanning = DB::table('requests')
+            ->join('passageexams', 'requests.passageexamid', '=', 'passageexams.id')
+            ->select('passageexams.*', 'requests.*')
+            ->where('userid', '=', $currentUser->id)
+            ->where('status', '=', 'accepted')
+            ->get();
+
+        return view('frontend.Professor.schedule.schedule', [
             'data' => $passageExam,
             'myprimaryplanning' => $myprimaryplanning,
             'mysecondaryplanning' => $mysecondaryplanning,
-            'hasplanning' => $currentUser->hasplanning
+            'hasplanning' => $currentUser->hasplanning,
+            'finalplanning'=> $finalplanning,
+
         ])->with('nothing', 'empty message');
     }
 
@@ -99,9 +109,15 @@ class ScheduleController extends Controller
                     'type' => '2'
                 ]);
             }
-            return redirect()->back()->with('success', 'Exam Supervision Requests sent!');
+            return redirect()->back()->with([
+                'success' => 'Exam Supervision Requests sent!',
+                'alert-type' => 'success'
+            ]);
         } else {
-            return redirect()->back()->with('danger', 'please select exactly 10 seperate choices for list1 and list2');
+            return redirect()->back()->with([
+                'danger' => 'Please select exactly 10 seperate choices for list1 and list2',
+                'alert-type' => 'warning'
+            ]);
         }
     }
 
@@ -125,12 +141,15 @@ class ScheduleController extends Controller
 
         req::where('userid', $currentUser->id)->delete();
 
-        return redirect()->back()->with('success_delete', 'Record deleted successfully');
+        return redirect()->back()->with([
+            'success_delete' => 'Record deleted successfully',
+            'alert-type' => 'success'
+        ]);
     }
 
 
 
-    //this function is used to attribute planning to prof --> 6 from primary planning and 4 from secondary planning
+    //this function is used to attribute planning to prof --> 6 from primary planning and 4 from secondary planning + random saturday supervisions from 0 to 4
     public function generatePlanning()
     {
         $currentUser = auth()->user();
@@ -189,7 +208,38 @@ class ScheduleController extends Controller
 
         // now you have exactly 10 final choices that will be sumitted
 
-        return redirect()->back()->with('success_generate', 'Generated planning');
+        // saturday planning -> every professor has a random number of atrributed supervisions on saturdays
+        $saturday_supervisions = PassageExam::whereRaw('DAYOFWEEK(datepassage) = 7')->pluck('id');
+        // now select a random number of supervisions and add them to the professor final planning
+
+        if(count($saturday_supervisions) > 0)
+        {
+            //$count = rand(0, 4);
+            $count = 1;
+            $my_saturday_supervisions = $saturday_supervisions->random($count);
+
+            // Loop through the selected elements and execute an insert query for each one
+            foreach ($my_saturday_supervisions as $entity) {
+                DB::table('requests')->insert([
+                    'userid' => auth()->user()->id,
+                    'passageexamid' => $entity,
+                    'requestDate' => now(),
+                    'status' => 'accepted',
+                    'type' => '1'
+                ]);
+
+                DB::table('passageexams')
+                ->whereIn('id', $my_saturday_supervisions)
+                ->increment('nbprof_enrolled');
+            }
+        }
+        // Randomly select a number of elements --> this can be updated so that we divide saturdays / number of professors
+
+
+        return redirect()->back()->with([
+            'success_generate' => 'Your planning is generated',
+            'alert-type' => 'success'
+        ]);
     }
 
 
@@ -217,33 +267,19 @@ class ScheduleController extends Controller
         foreach ($myfinalplanning as $item) {
 
             $events[] = [
-                'summary' => "Supervision for exam at Esprit",
+                'summary' => "Exam Supervision",
                 'description' => "Monitoring students during their examinations to ensure academic integrity and compliance with exam rules.",
                 'location' => "Esprit El Ghazela",
-                'start_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage-1 . ':00:00'),
-                'end_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage-1 . ':00:00')->addHours(2),
+                'start_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage - 1 . ':00:00'),
+                'end_date' => Carbon::parse($item->datepassage . ' ' . $item->heurepassage - 1 . ':00:00')->addHours(2),
             ];
         }
 
         Mail::to($toEmail)->send(new PlanningMail($message, $subject, $myfinalplanning, $events));
 
-        if (Auth::check()) {
-            return view('frontend.home');
-        } else {
-            // The user is not logged in
-            return view('frontend.auth.sign-in');
-        }
+        return back()->with([
+            'email_success' => 'Email sent successfully',
+            'alert-type' => 'success'
+        ]);
     }
-
-
-
-
-
-
-
-
-
-
-    // dont forget to handle the sunday schedule now
-
 }

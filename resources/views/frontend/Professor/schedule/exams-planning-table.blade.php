@@ -1,4 +1,9 @@
 {{-- --}}
+@php
+    use Carbon\Carbon;
+@endphp
+
+
 <div class="card-body px-0 pb-2">
     <div class="table-responsive p-0">
 
@@ -19,6 +24,9 @@
                             // Passage date and time
                             $passageDateTime = new DateTime($passageexam->datepassage);
 
+                            //date to check if its a saturday or not
+                            $carbonDate = Carbon::parse($passageDateTime);
+
                             // Check if the passage date has already passed
                             $hasPassed = $currentDateTime > $passageDateTime;
 
@@ -27,7 +35,7 @@
                         @endphp
 
 
-                        @if (!$hasPassed && $remainingProfessors > 0)
+                        @if (!$hasPassed && $remainingProfessors > 0 && !$carbonDate->isSaturday())
                             <th class="text-uppercase text-secondary text-l font-weight-bolder opacity-9">
                                 @php
                                     // Convert the datepassage to the desired format
@@ -53,7 +61,7 @@
                     <tr>
                         <td class="align-middle text-center">
                             <div style="flex-direction: column;display: flex;align-items: center;gap: 11px;">
-                                <span class="badge badge-pill bg-gradient-primary ">Primary  </span>
+                                <span class="badge badge-pill bg-gradient-primary ">Primary </span>
                                 <span class="badge badge-pill bg-gradient-secondary ">Secondary</span>
                                 <p class="remaining-supervisors">
                                     <small hidden>dvdvvd</small>
@@ -63,11 +71,14 @@
 
                         @foreach ($data as $passageexam)
                             @php
+
                                 // Current date and time
                                 $currentDateTime = new DateTime();
 
                                 // Passage date and time
                                 $passageDateTime = new DateTime($passageexam->datepassage);
+                                //date to check if its a saturday or not
+                                $carbonDate = Carbon::parse($passageDateTime);
 
                                 // Check if the passage date has already passed
                                 $hasPassed = $currentDateTime > $passageDateTime;
@@ -76,12 +87,11 @@
                                 $remainingProfessors = $passageexam->nbprof_required - $passageexam->nbprof_enrolled;
                             @endphp
 
-                            @if (!$hasPassed && $remainingProfessors > 0)
-
+                            @if (!$hasPassed && $remainingProfessors > 0 && !$carbonDate->isSaturday())
                                 <td class="align-middle text-center">
                                     <div class="checkbox-container">
 
-                                        <div class="checkbox-item" >
+                                        <div class="checkbox-item">
                                             <input type="checkbox" class="list1" name="selected_exams_list1[]"
                                                 value="{{ $passageexam->id }}"
                                                 {{ $remainingProfessors == 0 ? 'disabled' : '' }}>
@@ -178,7 +188,23 @@
             var list2 = document.querySelectorAll('input.list2:checked').length;
 
             if (list1 !== 10 || list2 !== 10) {
-                alert('Please select exactly 10 choices for both lists.');
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr.warning("You must select exactly 10 choices for Primary and Secondary planning");
+
                 event.preventDefault(); // Prevent form submission
             }
         });
@@ -251,5 +277,3 @@
             /* Adjust the margin as needed */
         }
     </style>
-
-
