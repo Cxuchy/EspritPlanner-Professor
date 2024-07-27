@@ -3,12 +3,17 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
-
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 /*
 Professor
 */
@@ -20,6 +25,14 @@ Route::get('/complaint', [ComplaintController::class,'complaint'])->name('compla
 
 Route::get('/sign-up', [AuthController::class,'signup'])->name('sign-up');
 Route::post('/sign-up', [AuthController::class,'store']);
+
+
+
+// forget password
+Route::get('/forgot-password', [PasswordResetController::class , 'get_forget_password'])->middleware('guest')->name('forgot-password');
+Route::post('/forgot-password', [PasswordResetController::class , 'post_forget_password'])->middleware('guest')->name('password.email');
+Route::get('/reset-password/{token}',[PasswordResetController::class , 'get_reset_password'])->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class , 'post_reset_password'])->middleware('guest')->name('password.update');
 
 
 Route::get('/login', [AuthController::class,'login'])->name('login');

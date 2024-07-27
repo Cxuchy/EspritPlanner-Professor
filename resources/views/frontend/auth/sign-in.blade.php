@@ -132,10 +132,15 @@
                                         <button type="subimit" value="submit"
                                             class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                                     </div>
+
                                     <p class="mt-4 text-sm text-center">
                                         Don't have an account?
                                         <a href="{{ url('/sign-up') }}"
                                             class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                    </p>
+                                    <p class="mt-1 text-sm text-center">
+                                        <a href="{{ url('/forgot-password') }}"
+                                            class="text-primary text-gradient "> <u>Forgot Password?</u></a>
                                     </p>
                                 </form>
 
