@@ -65,7 +65,7 @@ class PlanningMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'frontend.schedule.email-sent',
+            view: 'frontend.Professor.schedule.email-sent',
         );
     }
 

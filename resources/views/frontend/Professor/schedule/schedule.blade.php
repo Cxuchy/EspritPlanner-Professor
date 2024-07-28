@@ -36,318 +36,318 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         @include('frontend.Professor.elements.navbar')
 
+        @if ($unlock_planning[0] != 0)
 
-        <!--PAGE NOTIFICATION TOP-->
-        <div class="container-fluid py-4">
+            <!--PAGE NOTIFICATION TOP-->
+            <div class="container-fluid py-4">
 
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="card mt-4">
-                        <div class="card-body p-3 pb-0">
-                            @if (session('success'))
-                                <script>
-                                    toastr.options = {
-                                        "closeButton": true,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "300",
-                                        "hideDuration": "1000",
-                                        "timeOut": "5000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    };
-                                    toastr.success("Choices Saved successfully.");
-                                </script>
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="card mt-4">
+                            <div class="card-body p-3 pb-0">
+                                @if (session('success'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.success("Choices Saved successfully.");
+                                    </script>
+                                @elseif (session('error'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.danger("Please select exactly 10 seperate choices for list1 and list2.");
+                                    </script>
+                                @elseif (session('success_delete'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.warning("Requests deleted.");
+                                    </script>
+                                @elseif (session('danger'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.danger("Please select exactly 10 seperate choices for list1 and list2.");
+                                    </script>
+                                @elseif (session('success_generate'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.success("Personnal planning is ready for you down below ! ");
+                                    </script>
+                                @elseif (session('email_success'))
+                                    <script>
+                                        toastr.options = {
+                                            "closeButton": true,
+                                            "progressBar": true,
+                                            "positionClass": "toast-bottom-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr.success("Email sent successfully ");
+                                    </script>
+                                @else
+                                    @if ($hasplanning == 0)
+                                        <script>
+                                            toastr.options = {
+                                                "closeButton": true,
+                                                "progressBar": true,
+                                                "positionClass": "toast-bottom-right",
+                                                "preventDuplicates": false,
+                                                "onclick": null,
+                                                "showDuration": "300",
+                                                "hideDuration": "1000",
+                                                "timeOut": "5000",
+                                                "extendedTimeOut": "1000",
+                                                "showEasing": "swing",
+                                                "hideEasing": "linear",
+                                                "showMethod": "fadeIn",
+                                                "hideMethod": "fadeOut"
+                                            };
+                                            toastr.info("Please make sure to select two seperate choices from the list ");
+                                        </script>
+                                    @endif
 
-                            @elseif (session('error'))
-                                <script>
-                                    toastr.options = {
-                                        "closeButton": true,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "300",
-                                        "hideDuration": "1000",
-                                        "timeOut": "5000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    };
-                                    toastr.danger("Please select exactly 10 seperate choices for list1 and list2.");
-                                </script>
-                            @elseif (session('success_delete'))
-                            <script>
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "progressBar": true,
-                                    "positionClass": "toast-bottom-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.warning("Requests deleted.");
-                            </script>
-                            @elseif (session('danger'))
-                                <script>
-                                    toastr.options = {
-                                        "closeButton": true,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "300",
-                                        "hideDuration": "1000",
-                                        "timeOut": "5000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    };
-                                    toastr.danger("Please select exactly 10 seperate choices for list1 and list2.");
-                                </script>
-                            @elseif (session('success_generate'))
-                            <script>
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "progressBar": true,
-                                    "positionClass": "toast-bottom-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.success("Personnal planning is ready for you down below ! ");
-                            </script>
-                             @elseif (session('email_success'))
-                             <script>
-                                 toastr.options = {
-                                     "closeButton": true,
-                                     "progressBar": true,
-                                     "positionClass": "toast-bottom-right",
-                                     "preventDuplicates": false,
-                                     "onclick": null,
-                                     "showDuration": "300",
-                                     "hideDuration": "1000",
-                                     "timeOut": "5000",
-                                     "extendedTimeOut": "1000",
-                                     "showEasing": "swing",
-                                     "hideEasing": "linear",
-                                     "showMethod": "fadeIn",
-                                     "hideMethod": "fadeOut"
-                                 };
-                                 toastr.success("Email sent successfully ");
-                             </script>
-                            @else
-                                @if ($hasplanning == 0)
-                                <script>
-                                    toastr.options = {
-                                        "closeButton": true,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "300",
-                                        "hideDuration": "1000",
-                                        "timeOut": "5000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    };
-                                    toastr.info("Please make sure to select two seperate choices from the list ");
-                                </script>
                                 @endif
 
-                            @endif
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+            <!-- ELEMENTS WILL BE HERE -->
+            <div class="container-fluid py-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card my-4">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                    <div class="d-inline-flex p-2">
+                                        <h6 class="text-white text-capitalize ps-3">Exams Planning (submit two separate
+                                            choices)</h6>
+
+                                        <p id="checkedCountList1" class="text-white text-capitalize ps-3">
+                                            Primary: 0
+                                        </p>
+                                        <p class="text-white text-capitalize ps-3">
+
+                                        </p>
+                                        <p id="checkedCountList2" class="text-white text-capitalize ps-3">
+                                            Secondary: 0
+                                        </p>
+                                        <p class="text-white text-capitalize ps-3">
+
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            @include('frontend.Professor.schedule.exams-planning-table')
 
 
                         </div>
+
                     </div>
-
-
                 </div>
-            </div>
-        </div>
 
-
-
-
-
-
-
-
-
-
-        </div>
-
-
-
-        <!-- ELEMENTS WILL BE HERE -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <div class="d-inline-flex p-2">
-                                    <h6 class="text-white text-capitalize ps-3">Exams Planning (submit two separate
-                                        choices)</h6>
-
-                                    <p id="checkedCountList1" class="text-white text-capitalize ps-3">
-                                        Primary: 0
-                                    </p>
-                                    <p class="text-white text-capitalize ps-3">
-
-                                    </p>
-                                    <p id="checkedCountList2" class="text-white text-capitalize ps-3">
-                                        Secondary: 0
-                                    </p>
-                                    <p class="text-white text-capitalize ps-3">
-
-                                    </p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card my-4">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div class="bg-gradient-secondary shadow-primary border-radius-lg pt-4 pb-3">
+                                    <h6 class="text-white text-capitalize ps-3">Previous Exams </h6>
                                 </div>
                             </div>
 
 
+                            @include('frontend.Professor.schedule.previous-exams-table')
+
+
                         </div>
 
-
-                        @include('frontend.Professor.schedule.exams-planning-table')
-
-
                     </div>
-
                 </div>
             </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-secondary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Previous Exams </h6>
+
+            <div class="container-fluid py-4">
+
+                <div class="row">
+                    <div class="col-md-7 mt-4">
+                        <div class="card">
+                            <div class="card-header pb-0 px-3">
+                                <h6 class="mb-0">Requested Planning</h6>
                             </div>
-                        </div>
+                            <div class="card-body pt-4 p-3">
+
+                                <!--YOUR MAIN TABLE HERE-->
 
 
-                        @include('frontend.Professor.schedule.previous-exams-table')
+                                @include('frontend.Professor.schedule.list1-table')
 
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        </div>
-
-
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-
-
-
-
-        <!--
-        <div class="row">
-            <div class="col-12">
-                <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Chosen Lists (column fehom mochkla w columns
-                                mriglin)</h6>
-                        </div>
-                    </div>
-                    <div class="card-body px-0 pb-2">
-                        <div class="table-responsive p-0">
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
--->
-
-
-        <div class="container-fluid py-4">
-
-            <div class="row">
-                <div class="col-md-7 mt-4">
-                    <div class="card">
-                        <div class="card-header pb-0 px-3">
-                            <h6 class="mb-0">Requested Planning</h6>
-                        </div>
-                        <div class="card-body pt-4 p-3">
-
-                            <!--YOUR MAIN TABLE HERE-->
-
-
-                            @include('frontend.Professor.schedule.list1-table')
-
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="col-md-5 mt-4">
-                    <div class="card h-100 mb-4">
-                        <div class="card-header pb-0 px-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="mb-0">My Schedule</h6>
-                                </div>
-                                <div
-                                    class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
-                                    <i class="material-icons me-2 text-lg">date_range</i>
-                                    <small>You have <strong>{{ count($finalplanning) }}/{{ count($finalplanning) }}</strong>
-                                        Supervisions</small>
-                                </div>
 
                             </div>
                         </div>
-                        <div class="card-body pt-4 p-3">
-                            <!--YOUR SECOND TABLE HJERE -->
-                            @include('frontend.Professor.schedule.list2-table')
+                    </div>
 
+
+
+
+
+                    <div class="col-md-5 mt-4">
+                        <div class="card h-100 mb-4">
+                            <div class="card-header pb-0 px-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-0">My Schedule</h6>
+                                    </div>
+                                    <div
+                                        class="col-md-6 d-flex justify-content-start justify-content-md-end align-items-center">
+                                        <i class="material-icons me-2 text-lg">date_range</i>
+                                        <small>You have
+                                            <strong>{{ count($finalplanning) }}/{{ count($finalplanning) }}</strong>
+                                            Supervisions</small>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body pt-4 p-3">
+                                <!--YOUR SECOND TABLE HJERE -->
+                                @include('frontend.Professor.schedule.list2-table')
+
+
+                            </div>
 
                         </div>
 
                     </div>
 
                 </div>
-
-            </div>
     </main>
+@else
+    <div class="container-fluid py-10">
+
+        <div class="row">
+            <div class="col-lg-10 col-md-10 mx-auto">
+                <div class="card mt-4">
+                    <div class="card-body p-3 pb-0">
+
+                        <h3 class="text-center">
+                            <strong>
+                                The admin has not enabled the scheduling process yet , make sure to check later or wait
+                                for an email.
+                            </strong>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @endif
+
+
 
 
 

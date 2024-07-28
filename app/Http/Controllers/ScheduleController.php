@@ -51,12 +51,18 @@ class ScheduleController extends Controller
             ->where('status', '=', 'accepted')
             ->get();
 
+        $unlock_planning = DB::table('settings')
+            ->where('id', '=', 1)
+            ->pluck('unlock_exams');
+
+
         return view('frontend.Professor.schedule.schedule', [
             'data' => $passageExam,
             'myprimaryplanning' => $myprimaryplanning,
             'mysecondaryplanning' => $mysecondaryplanning,
             'hasplanning' => $currentUser->hasplanning,
-            'finalplanning'=> $finalplanning,
+            'finalplanning' => $finalplanning,
+            'unlock_planning' => $unlock_planning,
 
         ])->with('nothing', 'empty message');
     }
@@ -208,15 +214,16 @@ class ScheduleController extends Controller
 
         // now you have exactly 10 final choices that will be sumitted
 
-        // saturday planning -> every professor has a random number of atrributed supervisions on saturdays
+        // saturday planning -> every professor has a number of atrributed supervisions on saturdays
         $saturday_supervisions = PassageExam::whereRaw('DAYOFWEEK(datepassage) = 7')->pluck('id');
-        // now select a random number of supervisions and add them to the professor final planning
 
-        if(count($saturday_supervisions) > 0)
-        {
-            //$count = rand(0, 4);
-            $count = 1;
-            $my_saturday_supervisions = $saturday_supervisions->random($count);
+        if (count($saturday_supervisions) > 0) {
+
+            // the admin chooses the nb of saturdays supervision for every professor
+            $saturdays_supervisions_count = DB::table('settings')
+                ->where('id', '=', 1)
+                ->pluck('saturdays_supervisions');
+            $my_saturday_supervisions = $saturday_supervisions->random($saturdays_supervisions_count[0]);
 
             // Loop through the selected elements and execute an insert query for each one
             foreach ($my_saturday_supervisions as $entity) {
@@ -229,11 +236,10 @@ class ScheduleController extends Controller
                 ]);
 
                 DB::table('passageexams')
-                ->whereIn('id', $my_saturday_supervisions)
-                ->increment('nbprof_enrolled');
+                    ->whereIn('id', $my_saturday_supervisions)
+                    ->increment('nbprof_enrolled');
             }
         }
-        // Randomly select a number of elements --> this can be updated so that we divide saturdays / number of professors
 
 
         return redirect()->back()->with([
