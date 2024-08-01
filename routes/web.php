@@ -15,15 +15,42 @@ use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+
+
+
+/*
+Email Verification After creating a new account
+*/
+Route::get('/email/verify', function () {
+    return view('frontend.auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/')->with([
+        'success_account' => 'Account verified',
+        'alert-type' => 'success'
+    ]);;
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 /*
 Professor
 */
-Route::get('/', [DashboardController::class,'index'])->name('index');
+Route::get('/', [DashboardController::class,'index'])->name('index')->middleware('verified');
 Route::get('/schedule', [ScheduleController::class,'schedule'])->name('schedule');
 Route::get('/complaint', [ComplaintController::class,'complaint'])->name('complaint');
 Route::get('/sign-up', [AuthController::class,'signup'])->name('sign-up');
 Route::post('/sign-up', [AuthController::class,'store']);
-
 
 
 // forget password

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
+
 
 class AuthController extends Controller
 {
@@ -35,7 +37,7 @@ class AuthController extends Controller
             ]
             );
 
-            User::create(
+            $user = User::create(
                 [
                     'email'=> $validated['email'],
                     'password'=> Hash::make($validated['password']),
@@ -45,6 +47,8 @@ class AuthController extends Controller
                     'role'=> $validated['role']
                 ]
                 );
+            // Dispatch the Registered event
+            event(new Registered($user));
 
             return redirect()->route('login')->with('success','Account created please login');
 

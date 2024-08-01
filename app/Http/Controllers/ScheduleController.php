@@ -215,10 +215,11 @@ class ScheduleController extends Controller
         // now you have exactly 10 final choices that will be sumitted
 
         // saturday planning -> every professor has a number of atrributed supervisions on saturdays
-        $saturday_supervisions = PassageExam::whereRaw('DAYOFWEEK(datepassage) = 7')->pluck('id');
+        $saturday_supervisions = PassageExam::whereRaw('DAYOFWEEK(datepassage) = 7')
+        ->where('datepassage', '>', now())
+        ->pluck('id');
 
         if (count($saturday_supervisions) > 0) {
-
             // the admin chooses the nb of saturdays supervision for every professor
             $saturdays_supervisions_count = DB::table('settings')
                 ->where('id', '=', 1)

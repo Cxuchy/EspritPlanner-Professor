@@ -40,8 +40,15 @@ class DashboardController extends Controller
                     ->get();
 
                 $weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                $result_count_days = $weekdayCounts->mapWithKeys(function ($item) use ($weekdays) {
-                    return [$weekdays[$item->weekday - 1] => $item->count];
+
+                // Initialize all weekdays with 0 counts
+                $result_count_days = collect($weekdays)->mapWithKeys(function ($weekday) {
+                    return [$weekday => 0];
+                });
+                // Update with actual counts
+                $weekdayCounts->each(function ($item) use ($weekdays, &$result_count_days) {
+                    $weekday = $weekdays[$item->weekday - 1];
+                    $result_count_days[$weekday] = $item->count;
                 });
 
                 //charts content months of the year
