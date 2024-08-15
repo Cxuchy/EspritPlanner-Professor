@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('usercreditsid');
             $table->timestamps();
 
-
             $table->foreign('usercreditsid')->references('id')->on('usercredits')->onDelete('cascade');
 
         });

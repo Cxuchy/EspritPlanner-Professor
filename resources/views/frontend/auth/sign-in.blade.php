@@ -61,28 +61,14 @@
                                     <h3 class="text-white font-weight-bolder text-center mt-2 mb-0">
                                         <img src="../assets/img/esprit_small.png" class="navbar-brand-img h-100"
                                             alt="main_logo">
-                                        Esprit Planner
                                     </h3>
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                                    <h3 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                                        Esprit Planner
 
-                                    </h4>
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                                    </h3>
+                                    <h5 class="text-white font-weight-bolder text-center mt-4 mb-0">Sign in</h5>
                                     <div class="row mt-3">
-                                        <div class="col-2 text-center ms-auto">
-                                            <a class="btn btn-link px-3" href="javascript:;">
-                                                <i class="fa fa-facebook text-white text-lg"></i>
-                                            </a>
-                                        </div>
-                                        <div class="col-2 text-center px-1">
-                                            <a class="btn btn-link px-3" href="javascript:;">
-                                                <i class="fa fa-github text-white text-lg"></i>
-                                            </a>
-                                        </div>
-                                        <div class="col-2 text-center me-auto">
-                                            <a class="btn btn-link px-3" href="javascript:;">
-                                                <i class="fa fa-google text-white text-lg"></i>
-                                            </a>
-                                        </div>
+
 
 
                                         @if (session('success'))

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('userid');
             $table->unsignedBigInteger('moduleid');
+            $table->float('grade');
             $table->timestamps();
 
 

@@ -7,6 +7,10 @@ use App\Models\PassageExam;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Module;
+use App\Models\Passagecredit;
+use App\Models\Usercredit;
 
 class DashboardController extends Controller
 {
@@ -92,11 +96,55 @@ class DashboardController extends Controller
                 );
             }
             if ($user->role == "Student") {
-                return view('frontend.Student.home');
+
+                // return credits with this page
+                if ($user->hasplanning == 1) {
+                    // select credits
+                    $credits = Usercredit::join('modules', 'usercredits.moduleid', '=', 'modules.id')
+                        ->where('usercredits.userid', '=', $user->id)
+                        ->select('modules.*', 'usercredits.grade')
+                        ->get();
+
+                    return view('frontend.Student.home', [
+                        'credits' => $credits
+                    ]);
+                } else {
+                    // generate planning
+                    $modules_ids = Module::inRandomOrder()->limit(5)->pluck('id');
+                    $min = 0;
+                    $max = 7.99;
+
+                    foreach ($modules_ids as $module_id) {
+                        $grade = $this->getRandomFloat($min, $max);
+                        Usercredit::create([
+                            'moduleid' => $module_id,
+                            'userid' => $user->id,
+                            'grade' => $grade
+                        ]);
+                    }
+                    // the user is now having a planning
+                    $user->hasplanning = 1;
+                    $user->save();
+
+                    // retreive Planning
+                    $credits = Usercredit::join('modules', 'usercredits.moduleid', '=', 'modules.id')
+                        ->where('usercredits.userid', '=', $user->id)
+                        ->select('modules.*')
+                        ->get();
+
+                    return view('frontend.Student.home', [
+                        'credits' => $credits
+                    ]);
+                }
             }
         } else {
             // The user is not logged in
             return view('frontend.auth.sign-in');
         }
+    }
+    public function getRandomFloat($min, $max)
+    {
+        $randomFloat = $min + mt_rand() / mt_getrandmax() * ($max - $min);
+        return round($randomFloat, 2);
     }
 }

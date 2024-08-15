@@ -16,14 +16,14 @@
         <tr>
           <th>Date</th>
           <th>Hour</th>
-          <th>Bloc</th>
+          <th>Location</th>
         </tr>
 
         @foreach ($planning as $plan)
         <tr>
             <td>{{$plan->datepassage}}</td>
             <td>{{$plan->heurepassage}}:00</td>
-            <td>Bloc X</td>
+            <td>Esprit El Ghazela</td>
           </tr>
         @endforeach
 

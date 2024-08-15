@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\Student\PlanExamController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -88,3 +89,6 @@ Route::post('/send-email', [ScheduleController::class,'sendEmail'])->name('send-
 Student
 */
 Route::get('/profile-student', [ProfileController::class,'profile_student'])->name('profile-student');
+Route::get('/plan-exams', [PlanExamController::class,'planExams'])->name('plan-exams');
+Route::post('/submit-plan', [PlanExamController::class,'submitPlan'])->name('submit-plan');
+

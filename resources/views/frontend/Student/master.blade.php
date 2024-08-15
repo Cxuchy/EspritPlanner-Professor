@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 </head>
+@php
+$credit_sum = 0;
+foreach ($credits as $credit)
+{
+    $credit_sum+=$credit->ects;
+}
+@endphp
 
 <body class="g-sidenav-show  bg-gray-200">
     @include('frontend.Student.elements.sidebar')
@@ -80,7 +87,7 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">Credits</p>
-                                <h4 class="mb-0">XXXXX</h4>
+                                <h4 class="mb-0">{{$credit_sum}}</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
@@ -90,6 +97,7 @@
                 </div>
             </div>
 
+            @include('frontend.Student.Result.result-table')
 
             @include('frontend.Student.elements.footer')
         </div>
