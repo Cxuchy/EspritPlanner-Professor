@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
+
 
 class AuthController extends Controller
 {
@@ -30,20 +32,23 @@ class AuthController extends Controller
                 'name' => 'required|min:5|max:30',
                 'phonenumber' => 'required',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed'
+                'password' => 'required|confirmed',
+                'role'=> 'required'
             ]
             );
 
-            User::create(
+            $user = User::create(
                 [
                     'email'=> $validated['email'],
                     'password'=> Hash::make($validated['password']),
                     'identifier' => $validated['identifier'],
                     'nom' => $validated['name'],
                     'phonenumber' => $validated['phonenumber'],
-                    'role'=> "Professor"
+                    'role'=> $validated['role']
                 ]
                 );
+            // Dispatch the Registered event
+            event(new Registered($user));
 
             return redirect()->route('login')->with('success','Account created please login');
 
@@ -81,7 +86,7 @@ class AuthController extends Controller
             }
 
             return redirect()->route('login')->withErrors([
-                'email' => "No matching professor found with the provided email"
+                'email' => "No matching user found with the provided coordinates"
             ]);
 
     }

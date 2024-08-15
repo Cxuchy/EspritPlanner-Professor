@@ -19,8 +19,8 @@ return new class extends Migration
             $table->date('requestDate');
             $table->string('status');
             $table->string('type'); //type1 or type2
-            $table->date('responseDate');
-            $table->string('responseMessage');
+            $table->date('responseDate')->nullable();
+            $table->string('responseMessage')->nullable();
             $table->timestamps();
 
 

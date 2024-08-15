@@ -19,9 +19,25 @@ class ProfileController extends Controller
          // Retrieve all users except the authenticated one
          $users = User::where('id', '!=', $currentUser->id)->get();
 
-        return view('frontend.profile.profile',[
+        return view('frontend.Professor.profile.profile',[
             'users'=> $users ,
             'exams'=> $exams
         ]);
+    }
+
+
+    public function profile_student()
+    {
+        // Get the currently authenticated user
+        $currentUser = auth()->user();
+        $exams = Passageexam::take(4)->orderBy('datepassage', 'desc')->get();
+
+        // Retrieve all users except the authenticated one
+        $users = User::where('id', '!=', $currentUser->id)->get();
+
+       return view('frontend.Student.profile.profile',[
+           'users'=> $users ,
+               ]);
+
     }
 }

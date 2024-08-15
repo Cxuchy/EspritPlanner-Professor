@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phonenumber');
+            $table->integer('hasplanning')->nullable()->default(0);
             $table->string('role');
             $table->rememberToken();
             $table->timestamps();

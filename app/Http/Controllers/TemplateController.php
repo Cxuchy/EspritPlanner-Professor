@@ -8,16 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TemplateController extends Controller
 {
-    public function index()  {
-        //checks if the user is logged in
-        if (Auth::check()) {
-            return view('frontend.home');
-        } else {
-            // The user is not logged in
-            return view('frontend.auth.sign-in');
-        }
 
-    }
 
 /*
 complaint    public function schedule()  {
@@ -28,15 +19,11 @@ complaint    public function schedule()  {
 
     public function profile()  {
 
-        return view('frontend.profile.profile');
+        return view('frontend.Professor.profile.profile');
     }
 
 
-    public function complaint()
-    {
-        return view('frontend.complaint.complaint');
 
-    }
 
 
 
